@@ -1,0 +1,852 @@
+/* * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #222;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+header {
+    background: #222;
+    color: white;
+    padding: 20px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header p {
+    color: #ccc;
+}
+
+
+
+main {
+    flex: 1;
+    text-align: center;
+    padding: 70px 20px;
+}
+
+h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 35px;
+}
+
+.ask-box {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+input {
+    width: 400px;
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+button {
+    padding: 14px 22px;
+    border: none;
+    border-radius: 8px;
+    background: #222;
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #444;
+}
+
+.answer-box {
+    background: white;
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 25px;
+    border-radius: 12px;
+    text-align: left;
+    box-shadow: 0 3px 10px #ddd;
+}
+
+.answer-box h3 {
+    margin-bottom: 15px;
+}
+
+#answer {
+    line-height: 1.6;
+    color: #555;
+}
+
+
+
+footer {
+    background: #222;
+    color: white;
+    padding: 35px 20px 20px;
+    text-align: center;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: auto;
+}
+
+.footer-content h3 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.footer-content > p {
+    color: #bbb;
+    margin-bottom: 20px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    text-decoration: underline;
+}
+
+footer hr {
+    border: none;
+    border-top: 1px solid #444;
+    margin: 20px 0;
+}
+
+.copyright {
+    font-size: 13px;
+    color: #888 !important;
+    margin: 0 !important;
+}
+ */
+
+
+/*
+/* =========================================================
+   ADVANCED STYLESHEET
+   Same class names as your original, so it drops straight in.
+   Features: design tokens, dark mode, animated gradient border,
+   ripple button, shimmer loading, scroll-driven header,
+   custom animated cursor, glass answer card, reduced-motion support.
+   ========================================================= */
+
+/* ---------- Animatable custom properties ---------- */
+@property --angle {
+    syntax: "<angle>";
+    inherits: false;
+    initial-value: 0deg;
+}
+
+/* ---------- Design tokens ---------- */
+:root {
+    --bg: #f4f6f8;
+    --surface: #ffffff;
+    --ink: #1b1d21;
+    --ink-soft: #5b6270;
+    --line: #d9dde3;
+    --dark: #1b1d21;
+    --dark-hover: #3a3f48;
+    --accent-a: #4f6bff;
+    --accent-b: #12c2a4;
+    --accent-c: #ff7a59;
+    --radius: 12px;
+    --shadow: 0 10px 30px -12px rgb(20 30 60 / 0.25);
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    color-scheme: light dark;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg: #0f1115;
+        --surface: #181b21;
+        --ink: #eceef2;
+        --ink-soft: #9aa1ae;
+        --line: #2a2f38;
+        --dark: #0a0c10;
+        --dark-hover: #20242c;
+        --shadow: 0 10px 30px -12px rgb(0 0 0 / 0.7);
+    }
+}
+
+:root[data-theme="dark"] {
+    --bg: #0f1115;
+    --surface: #181b21;
+    --ink: #eceef2;
+    --ink-soft: #9aa1ae;
+    --line: #2a2f38;
+    --dark: #0a0c10;
+    --dark-hover: #20242c;
+    --shadow: 0 10px 30px -12px rgb(0 0 0 / 0.7);
+}
+
+/* ---------- Reset & base ---------- */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    background:
+        radial-gradient(60rem 30rem at 15% -10%, rgb(79 107 255 / 0.12), transparent 60%),
+        radial-gradient(50rem 30rem at 100% 10%, rgb(18 194 164 / 0.10), transparent 60%),
+        var(--bg);
+    background-attachment: fixed;
+    color: var(--ink);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.4s var(--ease), color 0.4s var(--ease);
+}
+
+::selection {
+    background: var(--accent-a);
+    color: #fff;
+}
+
+/* Visible keyboard focus for everything interactive */
+:focus-visible {
+    outline: 3px solid var(--accent-a);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+/* ---------- Header ---------- */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: color-mix(in srgb, var(--dark) 82%, transparent);
+    backdrop-filter: blur(14px) saturate(160%);
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    color: #fff;
+    padding: 20px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+    transition: padding 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+header p {
+    color: #c5cad3;
+}
+
+/* Header shrinks as you scroll (scroll-driven animation, progressive enhancement) */
+@supports (animation-timeline: scroll()) {
+    header {
+        animation: header-shrink linear both;
+        animation-timeline: scroll(root);
+        animation-range: 0 140px;
+    }
+
+    @keyframes header-shrink {
+        to {
+            padding-block: 10px;
+            box-shadow: 0 8px 24px -10px rgb(0 0 0 / 0.5);
+        }
+    }
+}
+
+/* ---------- Main ---------- */
+main {
+    flex: 1;
+    text-align: center;
+    padding: clamp(40px, 8vw, 90px) 20px;
+}
+
+/* Animated gradient headline */
+h1 {
+    font-size: clamp(2rem, 5vw + 0.5rem, 3.4rem);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 12px;
+    background: linear-gradient(
+        100deg,
+        var(--ink) 0%,
+        var(--accent-a) 35%,
+        var(--accent-b) 65%,
+        var(--ink) 100%
+    );
+    background-size: 250% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    animation: gradient-pan 8s ease-in-out infinite alternate,
+        rise 0.9s var(--ease) both;
+}
+
+.subtitle {
+    color: var(--ink-soft);
+    margin-bottom: 38px;
+    font-size: 1.05rem;
+    animation: rise 0.9s var(--ease) 0.12s both;
+}
+
+/* ---------- Question box ---------- */
+.ask-box {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    animation: rise 0.9s var(--ease) 0.24s both;
+}
+
+/* Input with a rotating conic-gradient border on focus */
+input {
+    width: min(100%, 440px);
+    padding: 15px 18px;
+    border: 2px solid transparent;
+    border-radius: 10px;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--ink);
+    background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        conic-gradient(
+                from var(--angle),
+                var(--line),
+                var(--line)
+            )
+            border-box;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.06);
+    transition: box-shadow 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+input::placeholder {
+    color: var(--ink-soft);
+    transition: opacity 0.3s, transform 0.3s var(--ease);
+}
+
+input:focus {
+    outline: none;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+    background:
+        linear-gradient(var(--surface), var(--surface)) padding-box,
+        conic-gradient(
+                from var(--angle),
+                var(--accent-a),
+                var(--accent-b),
+                var(--accent-c),
+                var(--accent-a)
+            )
+            border-box;
+    animation: spin-angle 3s linear infinite;
+}
+
+input:focus::placeholder {
+    opacity: 0.4;
+    transform: translateX(6px);
+}
+
+/* ---------- Button with ripple + shine ---------- */
+button {
+    position: relative;
+    overflow: hidden;
+    padding: 15px 26px;
+    border: none;
+    border-radius: 10px;
+    background: var(--dark);
+    color: #fff;
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+    isolation: isolate;
+    transition: transform 0.25s var(--ease), box-shadow 0.25s var(--ease),
+        background 0.25s;
+}
+
+/* moving shine */
+button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(
+        110deg,
+        transparent 30%,
+        rgb(255 255 255 / 0.28) 50%,
+        transparent 70%
+    );
+    transform: translateX(-120%);
+    transition: transform 0.7s var(--ease);
+}
+
+/* click ripple (grows from the centre on :active) */
+button::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.45);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    z-index: -1;
+}
+
+button:hover {
+    background: var(--dark-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 24px -10px rgb(0 0 0 / 0.5);
+}
+
+button:hover::before {
+    transform: translateX(120%);
+}
+
+button:active {
+    transform: translateY(0) scale(0.97);
+}
+
+button:active::after {
+    animation: ripple 0.55s ease-out;
+}
+
+button:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Button shows a spinner when you add .is-loading */
+button.is-loading {
+    pointer-events: none;
+    color: transparent;
+}
+
+button.is-loading::after {
+    inset: auto;
+    left: 50%;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    background: none;
+    border: 3px solid rgb(255 255 255 / 0.35);
+    border-top-color: #fff;
+    transform: none;
+    opacity: 1;
+    z-index: 1;
+    animation: spin 0.7s linear infinite;
+}
+
+/* ---------- Answer card (glass + animated entrance) ---------- */
+.answer-box {
+    position: relative;
+    background: color-mix(in srgb, var(--surface) 88%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    max-width: 700px;
+    margin: 44px auto;
+    padding: 28px;
+    border-radius: 16px;
+    text-align: left;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    animation: card-in 0.8s var(--ease) both;
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+
+/* Glowing accent edge that follows the cursor if you set --mx / --my in JS (optional) */
+.answer-box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(
+        300px circle at var(--mx, 50%) var(--my, 0%),
+        var(--accent-a),
+        transparent 60%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+    opacity: 0;
+    transition: opacity 0.4s;
+    pointer-events: none;
+}
+
+.answer-box:hover {
+    transform: translateY(-4px);
+}
+
+.answer-box:hover::before {
+    opacity: 1;
+}
+
+.answer-box h3 {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* pulsing live dot before the heading */
+.answer-box h3::before {
+    content: "";
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--accent-b);
+    box-shadow: 0 0 0 0 rgb(18 194 164 / 0.6);
+    animation: pulse 2s infinite;
+}
+
+#answer {
+    line-height: 1.7;
+    color: var(--ink-soft);
+    overflow-wrap: anywhere;
+}
+
+/* Blinking caret while the answer is being typed (add .typing in JS) */
+#answer.typing::after {
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    margin-left: 3px;
+    vertical-align: text-bottom;
+    background: var(--accent-a);
+    animation: blink 0.9s steps(2) infinite;
+}
+
+/* Skeleton shimmer while loading (add .loading to #answer) */
+#answer.loading {
+    color: transparent;
+    min-height: 4.5em;
+    border-radius: 8px;
+    background: linear-gradient(
+            90deg,
+            var(--line) 25%,
+            color-mix(in srgb, var(--line) 40%, var(--surface)) 50%,
+            var(--line) 75%
+        )
+        0 0 / 200% 100%;
+    animation: shimmer 1.3s linear infinite;
+}
+
+/* ---------- Footer ---------- */
+footer {
+    position: relative;
+    background: var(--dark);
+    color: #fff;
+    padding: 45px 20px 22px;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* animated gradient line on top of footer */
+footer::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 3px;
+    background: linear-gradient(
+        90deg,
+        var(--accent-a),
+        var(--accent-b),
+        var(--accent-c),
+        var(--accent-a)
+    );
+    background-size: 300% 100%;
+    animation: gradient-pan 6s linear infinite;
+}
+
+.footer-content {
+    max-width: 800px;
+    margin: auto;
+}
+
+.footer-content h3 {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.footer-content > p {
+    color: #b7bdc8;
+    margin-bottom: 20px;
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px 32px;
+    margin: 22px 0;
+}
+
+/* underline that draws in from the left */
+.footer-links a {
+    position: relative;
+    color: #fff;
+    text-decoration: none;
+    padding-block: 4px;
+}
+
+.footer-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-a), var(--accent-b));
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.4s var(--ease);
+}
+
+.footer-links a:hover::after,
+.footer-links a:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: left;
+}
+
+footer hr {
+    border: none;
+    border-top: 1px solid rgb(255 255 255 / 0.12);
+    margin: 22px 0;
+}
+
+.copyright {
+    font-size: 13px;
+    color: #8c93a0 !important;
+    margin: 0 !important;
+}
+
+/* =========================================================
+   CUSTOM ANIMATED CURSOR
+   Pure-CSS fallback cursor + optional follower (needs the tiny
+   JS snippet that sets --cx / --cy and toggles .cursor-hover).
+   ========================================================= */
+@media (hover: hover) and (pointer: fine) {
+    body {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24'%3E%3Ccircle cx='12' cy='12' r='4' fill='%234f6bff'/%3E%3C/svg%3E")
+                12 12,
+            auto;
+    }
+
+    a,
+    button {
+        cursor: pointer;
+    }
+
+    input {
+        cursor: text;
+    }
+
+    .cursor-dot,
+    .cursor-ring {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 9999;
+        pointer-events: none;
+        border-radius: 50%;
+        transform: translate3d(calc(var(--cx, -100px) - 50%), calc(var(--cy, -100px) - 50%), 0);
+    }
+
+    .cursor-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--accent-a);
+    }
+
+    .cursor-ring {
+        width: 38px;
+        height: 38px;
+        border: 2px solid var(--accent-a);
+        mix-blend-mode: difference;
+        transition: width 0.3s var(--ease), height 0.3s var(--ease),
+            background 0.3s, border-color 0.3s, opacity 0.3s;
+    }
+
+    /* ring grows over interactive things */
+    body.cursor-hover .cursor-ring {
+        width: 64px;
+        height: 64px;
+        background: rgb(79 107 255 / 0.15);
+        border-color: var(--accent-b);
+    }
+
+    body.cursor-down .cursor-ring {
+        width: 26px;
+        height: 26px;
+    }
+}
+
+@media (hover: none), (pointer: coarse) {
+    .cursor-dot,
+    .cursor-ring {
+        display: none;
+    }
+}
+
+/* =========================================================
+   KEYFRAMES
+   ========================================================= */
+@keyframes rise {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+        filter: blur(6px);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+}
+
+@keyframes card-in {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes gradient-pan {
+    to {
+        background-position: 100% 0;
+    }
+}
+
+@keyframes spin-angle {
+    to {
+        --angle: 360deg;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(40);
+        opacity: 0;
+    }
+}
+
+@keyframes pulse {
+    70% {
+        box-shadow: 0 0 0 10px rgb(18 194 164 / 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgb(18 194 164 / 0);
+    }
+}
+
+@keyframes blink {
+    to {
+        visibility: hidden;
+    }
+}
+
+@keyframes shimmer {
+    to {
+        background-position: -200% 0;
+    }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width: 640px) {
+    header {
+        flex-direction: column;
+        gap: 6px;
+        padding-inline: 5%;
+        text-align: center;
+    }
+
+    .ask-box {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    input,
+    button {
+        width: 100%;
+    }
+
+    .answer-box {
+        margin-inline: 12px;
+        padding: 20px;
+    }
+}
+
+/* Container-query friendly answer card */
+@supports (container-type: inline-size) {
+    main {
+        container-type: inline-size;
+    }
+
+    @container (max-width: 480px) {
+        .answer-box h3 {
+            font-size: 1.05rem;
+        }
+    }
+}
+
+/* =========================================================
+   ACCESSIBILITY: respect reduced motion
+   ========================================================= */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+}

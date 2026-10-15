@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Test your knowledge with QuizCraft, a simple interactive quiz app.">
+  <title>QuizCraft | Smart Quiz Generator</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="navbar">
+    <a class="brand" href="#" aria-label="QuizCraft home">
+      <span class="brand-icon">Q</span>
+      <span>Quiz<span class="brand-accent">Craft</span></span>
+    </a>
+    <span class="nav-label">LEARN • PRACTICE • GROW</span>
+  </header>
+
+  <main class="app-container">
+    <section class="intro" id="intro">
+      <span class="eyebrow">YOUR LEARNING SPACE</span>
+      <h1>Knowledge starts<br>with <span>one question.</span></h1>
+      <p>Challenge yourself, learn something new, and track your progress with a quick quiz.</p>
+
+      <div class="setup-card">
+        <label for="category">Choose your quiz topic</label>
+        <select id="category">
+          <option value="all">Mixed Knowledge</option>
+          <option value="web">Web Development</option>
+          <option value="javascript">JavaScript</option>
+          <option value="general">General Knowledge</option>
+        </select>
+
+        <div class="quiz-details">
+          <div>
+            <span class="detail-icon">✦</span>
+            <span><strong>5 questions</strong><small>Quick practice</small></span>
+          </div>
+          <div>
+            <span class="detail-icon">✓</span>
+            <span><strong>Instant results</strong><small>See your score</small></span>
+          </div>
+        </div>
+
+        <button class="primary-btn" id="startBtn">Start your quiz <span>→</span></button>
+      </div>
+      <p class="footnote">No pressure. Just progress.</p>
+    </section>
+
+    <section class="quiz-card hidden" id="quizScreen" aria-live="polite">
+      <div class="quiz-topline">
+        <span class="eyebrow" id="quizCategory">MIXED KNOWLEDGE</span>
+        <span class="question-count" id="questionCount">QUESTION 1 OF 5</span>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <p class="question-number" id="questionNumber">QUESTION 01</p>
+      <h2 id="questionText">Your question appears here</h2>
+      <p class="choose-hint">Select one answer to continue.</p>
+
+      <div class="options" id="options"></div>
+
+      <div class="quiz-footer">
+        <span id="answeredLabel">Choose an answer</span>
+        <button class="primary-btn next-btn" id="nextBtn" disabled>
+          Next question <span>→</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="result-card hidden" id="resultScreen" aria-live="polite">
+      <div class="result-icon" id="resultIcon">★</div>
+      <span class="eyebrow">QUIZ COMPLETED</span>
+      <h2 id="resultTitle">Well done!</h2>
+      <p id="resultMessage">Every question is a chance to learn.</p>
+
+      <div class="score-panel">
+        <span class="score-label">YOUR FINAL SCORE</span>
+        <div class="score-value"><span id="scoreValue">0</span><small> / <span id="totalValue">5</span></small></div>
+        <div class="result-progress"><div id="scoreFill"></div></div>
+        <p id="percentageText">0% correct</p>
+      </div>
+
+      <div class="result-actions">
+        <button class="primary-btn" id="retryBtn">Try again <span>↻</span></button>
+        <button class="secondary-btn" id="homeBtn">Back to home</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>QuizCraft</span>
+    <span>Built for curious minds.</span>
+  </footer>
+</body>
+</html>

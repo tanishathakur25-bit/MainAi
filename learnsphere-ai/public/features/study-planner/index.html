@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Plan your studies, organize tasks, and track your learning progress.">
+    <title>StudyFlow — AI Study Planner</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="app-layout">
+
+        <aside class="sidebar">
+            <a href="#" class="brand">
+                <span class="brand-icon">S</span>
+                <span>StudyFlow</span>
+            </a>
+
+            <p class="sidebar-label">WORKSPACE</p>
+
+            <nav class="navigation" aria-label="Main navigation">
+                <a href="#dashboard" class="nav-link active">
+                    <span>▦</span> Dashboard
+                </a>
+                <a href="#tasks" class="nav-link">
+                    <span>☷</span> My Tasks
+                </a>
+                <a href="#schedule" class="nav-link">
+                    <span>▦</span> Study Schedule
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="ai-note">
+                    <span class="sparkle">✦</span>
+                    <h3>Study smarter</h3>
+                    <p>Build consistent habits, one study session at a time.</p>
+                    <a href="#ai-planner">Explore AI Planner ↗</a>
+                </div>
+
+                <div class="profile">
+                    <div class="avatar">S</div>
+                    <div>
+                        <strong>Student Workspace</strong>
+                        <p>Your learning journey</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content" id="dashboard">
+
+            <header class="topbar">
+                <div>
+                    <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+                    <h1>Study Dashboard</h1>
+                </div>
+                <div class="topbar-date" id="current-date">Your study space</div>
+            </header>
+
+            <section class="welcome-section">
+                <div class="welcome-copy">
+                    <span class="welcome-tag">✦ YOUR NEXT CHAPTER STARTS HERE</span>
+                    <h2>Small steps.<br><span>Big progress.</span></h2>
+                    <p>Organize your learning, stay focused, and make every study session count.</p>
+                    <a class="primary-button" href="#tasks">Plan your day <span>→</span></a>
+                </div>
+
+                <div class="welcome-art" aria-hidden="true">
+                    <div class="orbit orbit-one"></div>
+                    <div class="orbit orbit-two"></div>
+                    <div class="book-illustration">
+                        <span>✦</span>
+                        <div class="book-page"></div>
+                    </div>
+                    <div class="floating-note note-one">✓ Stay consistent</div>
+                    <div class="floating-note note-two">✦ Keep learning</div>
+                </div>
+            </section>
+
+            <section class="stats-grid" aria-label="Study statistics">
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-icon purple">☷</span>
+                        <span class="stat-caption">ALL TASKS</span>
+                    </div>
+                    <h3 id="total-tasks">0</h3>
+                    <p>Total study tasks</p>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-icon green">✓</span>
+                        <span class="stat-caption">COMPLETED</span>
+                    </div>
+                    <h3 id="completed-tasks">0</h3>
+                    <p>Tasks finished</p>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-icon orange">◷</span>
+                        <span class="stat-caption">REMAINING</span>
+                    </div>
+                    <h3 id="remaining-tasks">0</h3>
+                    <p>Tasks to work on</p>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-top">
+                        <span class="stat-icon blue">↗</span>
+                        <span class="stat-caption">YOUR PROGRESS</span>
+                    </div>
+                    <h3 id="progress-number">0%</h3>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                </article>
+            </section>
+
+            <section class="content-grid">
+                <div class="panel tasks-panel" id="tasks">
+                    <div class="panel-heading">
+                        <div>
+                            <p class="eyebrow">STAY ON TRACK</p>
+                            <h2>My Study Tasks</h2>
+                        </div>
+                        <span class="task-count" id="task-count">0 tasks</span>
+                    </div>
+
+                    <form id="task-form" class="task-form">
+                        <div class="form-field">
+                            <label for="task-title">Task name</label>
+                            <input id="task-title" type="text" placeholder="e.g. Revise JavaScript" maxlength="100" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="task-subject">Subject</label>
+                                <input id="task-subject" type="text" placeholder="e.g. JavaScript" maxlength="50" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="task-date">Due date</label>
+                                <input id="task-date" type="date" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="task-priority">Priority</label>
+                                <select id="task-priority">
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                    <option value="Low">Low</option>
+                                </select>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="task-duration">Study time</label>
+                                <select id="task-duration">
+                                    <option value="30">30 minutes</option>
+                                    <option value="60" selected>1 hour</option>
+                                    <option value="90">1.5 hours</option>
+                                    <option value="120">2 hours</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="primary-button add-button" type="submit">
+                            <span>+</span> Add study task
+                        </button>
+                    </form>
+
+                    <div class="task-list-heading">
+                        <h3>Your tasks</h3>
+                        <select id="task-filter" aria-label="Filter tasks">
+                            <option value="all">All tasks</option>
+                            <option value="pending">Pending</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    </div>
+
+                    <div id="task-list" class="task-list">
+                        <div class="empty-state">
+                            <span>✦</span>
+                            <h3>Your study journey starts here</h3>
+                            <p>Add your first task using the form above.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="right-column">
+                    <section class="panel progress-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="eyebrow">KEEP GOING</p>
+                                <h2>Study Progress</h2>
+                            </div>
+                            <span class="progress-symbol">↗</span>
+                        </div>
+
+                        <div class="progress-circle" id="progress-circle">
+                            <div class="progress-circle-inner">
+                                <strong id="circle-number">0%</strong>
+                                <span>completed</span>
+                            </div>
+                        </div>
+
+                        <p class="progress-message" id="progress-message">Every completed task is a step forward.</p>
+                    </section>
+
+                    <section class="panel schedule-panel" id="schedule">
+                        <div class="panel-heading">
+                            <div>
+                                <p class="eyebrow">YOUR DEADLINES</p>
+                                <h2>Upcoming Tasks</h2>
+                            </div>
+                        </div>
+                        <div id="upcoming-list" class="upcoming-list">
+                            <p class="muted-text">Your upcoming deadlines will appear here.</p>
+                        </div>
+                    </section>
+
+                    <section class="ai-panel" id="ai-planner">
+                        <div class="ai-panel-icon">✦</div>
+                        <p class="eyebrow">COMING NEXT</p>
+                        <h2>Your AI Study Planner</h2>
+                        <p>Personalized study plans based on your subjects, goals, and available time.</p>
+                        <button type="button" class="secondary-button" id="ai-plan-button">
+                            Plan with AI <span>↗</span>
+                        </button>
+                        <p class="ai-status" id="ai-status" aria-live="polite">
+                            AI integration will be connected securely in the next stage.
+                        </p>
+                    </section>
+                </div>
+            </section>
+
+            <footer class="footer">
+                <p>StudyFlow · Built for your learning journey</p>
+                <p>One task at a time. One goal at a time.</p>
+            </footer>
+        </main>
+    </div>
+</body>
+</html>
