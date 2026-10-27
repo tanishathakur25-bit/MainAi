@@ -26,7 +26,7 @@ feedbackForm.addEventListener("submit", async (event) => {
     const comments = document.getElementById("comment").value;
 
     try {
-        const response = await fetch("http://localhost:5000/api/feedback", {
+        const response = await fetch("https://mainai-u81g.onrender.com/api/feedback", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -64,7 +64,7 @@ feedbackForm.addEventListener("submit", async (event) => {
 async function loadFeedback() {
 
     try {  
-        const response = await fetch("http://localhost:5000/api/feedback");
+        const response = await fetch("https://mainai-u81g.onrender.com/api/feedback");
         const feedback = await response.json();
         const feedbackList =
             document.getElementById("feedbackList");

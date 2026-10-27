@@ -412,7 +412,7 @@ if (aiPlanButton) {
     showStatus("Generating your AI study plan...", "info");
 
     try {
-      const response = await fetch("http://localhost:5000/api/plan", {
+      const response = await fetch("https://mainai-u81g.onrender.com/api/plan", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
